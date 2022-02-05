@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  php:
+    build: ./infra/php
+    image: task_manager_web
+    container_name: task_manager_web
+    volumes:
+      - ./src:/var/www/html
+      - ./infra/php/php.ini:/usr/local/etc/php/php.ini
+      - ./infra/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - task_manager_web_vendor-store:/var/www/html/vendor
+    ports:
+      - 80:80
+    networks:
+      - task_manager_web-network
+
+  postgresql:
+    build: ./infra/postgresql
+    image: task_manager_db
+    container_name: task_manager_db
+    volumes: 
+      - ./infra/postgresql/data:/var/lib/postgresql/data
+      - ./infra/postgresql/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+    ports:
+      - 5432:5432
+    networks:
+      - task_manager_web-network
+
+networks:
+  task_manager_web-network:
+    name: task_manager_web-network
+
+volumes:
+  task_manager_web_vendor-store:
