@@ -1,0 +1,18 @@
+[plantuml]
+----
+left to right direction
+
+actor "ユーザー" as user
+
+rectangle "タスク管理システム" {
+  usecase "タスク登録" as add_task
+  usecase "タスク完了" as done_task
+  usecase "タスク削除" as remove_task
+  usecase "タイトル編集" as edit_task
+}
+
+user --> add_task
+user --> done_task
+user --> edit_task
+user --> remove_task
+----

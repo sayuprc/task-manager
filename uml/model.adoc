@@ -1,0 +1,23 @@
+[plantuml]
+....
+package "タスク集約" as TaskGroup {
+  object "タスク" as Task {
+    タスクID
+    ユーザーID
+    タイトル
+    ステータス
+  }
+}
+
+package "ユーザー集約" as UserGroup {
+  object "ユーザー" as User {
+    ユーザーID
+    ユーザー名
+  }
+}
+
+Task "0..n" -> "1" User
+
+note "・タイトルは1文字以上50文字以内\n・ステータスは「未完了」「完了」の2種類\nデフォルトで「未完了」" as taskNote
+Task .. taskNote
+....
